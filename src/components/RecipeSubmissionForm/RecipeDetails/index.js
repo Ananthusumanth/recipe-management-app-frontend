@@ -13,6 +13,12 @@ function RecipeDetails() {
     state: apiContentResponse.intially,
     details: null
   })
+  const [title, settitle] = useState("")
+  const [ingredients, setIngedients] = useState("")
+  const [instructions, setInstructions] = useState("")
+  const [categories, setCategories] = useState("")
+  const [ID, setID] = useState("")
+  const [onEditbutton, setonEditbutton] = useState(false)
 
   const getDetails = async () => {
     const response = await fetch("http://localhost:3000/recipes")
@@ -29,6 +35,8 @@ function RecipeDetails() {
     getDetails()
   },[])
 
+
+
   const isLoadingView = () => (
     <div className='loader' data-testid="loader">
         <h1>Loading..........</h1>
@@ -40,6 +48,26 @@ function RecipeDetails() {
           <p>Failed to load......</p>
       </div>
   )
+
+  const editButton = (id) => {
+    setID(id)
+    setonEditbutton(true)
+  }
+
+  const onSave = async () => {
+    const url = `http://localhost:3000/recipes/${ID}`
+    const userDetails = {title, ingredients, instructions, categories}
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+    },
+      body: JSON.stringify(userDetails)
+    }
+    const response = await fetch(url, options)
+    await response.json()
+    window.location.reload();
+  }
 
   const successView = () => (
       <table className='table'>
@@ -58,7 +86,7 @@ function RecipeDetails() {
             <td className='td'>{each.ingredients}</td>
             <td className='td'>{each.instructions}</td>
             <td className='td'>{each.categories}</td>
-            <td className='tdbutton'><button type="button" className='buttonedit'>EDIT</button></td>
+            <td className='tdbutton'><button type="button" className='buttonedit' onClick={() => editButton(each.id)}>EDIT</button></td>
           </tr>
         ))}
       </table>
@@ -78,8 +106,47 @@ function RecipeDetails() {
     }
   }
 
+  const addContentotable = async () => {
+    const url = "http://localhost:3000/recipes"
+    const userDetails = {title, ingredients, instructions, categories}
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+    },
+      body: JSON.stringify(userDetails)
+    }
+    const response = await fetch(url, options)
+    await response.json()
+    window.location.reload();
+  }
+
   return (
     <>
+    <div className='Submissioncontainer'>
+      <form className='form' onSubmit={addContentotable}>
+        <div className='formdiv'>
+            <label htmlFor="inputtitle">TITLE</label>
+            <input type="text" value={title} id="inputtitle" className='input' required onChange={(e) => settitle(e.target.value)}/>
+        </div>
+        <div className='formdiv'>
+            <label htmlFor="inputingredient">INGREDIENT</label>
+            <input type="text" value={ingredients} id="inputingredient" className='input' required onChange={(e) => setIngedients(e.target.value)}/>
+        </div>
+        <div className='formdiv'>
+            <label htmlFor="inputinstructions">INSTRUCTIONS</label>
+            <textarea type="text" value={instructions} cols={20} rows={2} id="inputinstructions" required onChange={(e) => setInstructions(e.target.value)}/>
+        </div>
+        <div className='formdiv'>
+            <label htmlFor="inputcategories">CATEGORIES</label>
+            <input type="text" value={categories} id="inputcategories" className='input' required onChange={(e) => setCategories(e.target.value)}/>
+        </div>
+        {onEditbutton ? 
+        <button type="button" className="save-button" onClick={onSave}>
+          Save
+        </button> : <button type='submit' className='buttonAdd'>Add</button>}
+      </form>
+    </div>
     {returnResponse()}
     </>
   )
