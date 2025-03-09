@@ -1,29 +1,25 @@
 .data-table{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px;
-    width: 100%;
     border:2px solid blue;
 }
 .table {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  min-height: 60vh;
+  padding: 20px;
+  margin-top: 30px;
+  min-width: 80%;
   background-color: greenyellow;
+  border-radius: 5px;
 }
-.details-container{
+.second-container{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  min-height: 55vh;
-  background-color: greenyellow;
+  justify-content: flex-start;
+  width: 100%;
+  height: 59vh;
+  overflow-y: auto;
+  background-color: rgb(90, 60, 60);
 }
 
 .th{
@@ -40,6 +36,7 @@
 }
 .td{
   width: 180px;
+  height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -59,10 +56,8 @@
 }
 .buttonedit {
   background-color: green;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 10px;
+  width: 60px;
   color: white;
   border-radius: 5px;
   border: none;
@@ -121,4 +116,28 @@ textarea {
   background-color: transparent;
   color: white;
   border: 2px solid greenyellow;
+}
+
+.save-button {
+  background-color: rgb(65, 187, 65);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-family: Georgia;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 576px){
+  .th{
+    width: 100px;
+    flex-wrap: wrap;
+    padding: 10px;
+    font-size: 10px;
+  }
 }

@@ -21,7 +21,7 @@ function RecipeDetails() {
   const [onEditbutton, setonEditbutton] = useState(false)
 
   const getDetails = async () => {
-    const response = await fetch("http://localhost:3000/recipes")
+    const response = await fetch("https://recipe-management-app-35ab.onrender.com/recipes")
     if (response.ok){
       const data = await response.json()
       setResponse({state: apiContentResponse.success, details: data})
@@ -49,13 +49,17 @@ function RecipeDetails() {
       </div>
   )
 
-  const editButton = (id) => {
+  const editButton = (id, TITLE, ing, ins, cate) => {
     setID(id)
+    settitle(TITLE)
+    setIngedients(ing)
+    setInstructions(ins)
+    setCategories(cate)
     setonEditbutton(true)
   }
 
   const onSave = async () => {
-    const url = `http://localhost:3000/recipes/${ID}`
+    const url = `https://recipe-management-app-35ab.onrender.com/recipes/${ID}`
     const userDetails = {title, ingredients, instructions, categories}
     const options = {
       method: "PUT",
@@ -86,7 +90,7 @@ function RecipeDetails() {
             <td className='td'>{each.ingredients}</td>
             <td className='td'>{each.instructions}</td>
             <td className='td'>{each.categories}</td>
-            <td className='tdbutton'><button type="button" className='buttonedit' onClick={() => editButton(each.id)}>EDIT</button></td>
+            <td className='tdbutton'><button type="button" className='buttonedit' onClick={() => editButton(each.id, each.title, each.ingredients, each.instructions, each.categories)}>EDIT</button></td>
           </tr>
         ))}
       </table>
@@ -107,7 +111,7 @@ function RecipeDetails() {
   }
 
   const addContentotable = async () => {
-    const url = "http://localhost:3000/recipes"
+    const url = "https://recipe-management-app-35ab.onrender.com/recipes"
     const userDetails = {title, ingredients, instructions, categories}
     const options = {
       method: "POST",
@@ -147,7 +151,9 @@ function RecipeDetails() {
         </button> : <button type='submit' className='buttonAdd'>Add</button>}
       </form>
     </div>
-    {returnResponse()}
+    <div className='second-container'>
+      {returnResponse()}
+    </div>
     </>
   )
 }
